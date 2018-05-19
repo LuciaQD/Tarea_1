@@ -2,55 +2,57 @@
 title: "Tarea individual 1"
 author: "Lucia Quintero"
 date: "16/4/2018"
-output:
-  pdf_document: default
-  html_document:
-    df_print: paged
-  word_document: default
+output: pdf_document
+fig_caption: true
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
 library(ggplot2)
 library(gapminder)
 library(tidyverse)
 ```
+
+\fbox{\begin{minipage}{48em}
+Incluir en el chunck de cÃ³digo warning=FALSE, message=FALSE para que no salgan los mensajes cuando cargo las librerÃ­as
+\end{minipage}}
+
 ## Entrega
 
 La tarea debe ser realizada en RMarkdown en un repositorio de GitHub llamado "Tarea 1".
-La tarea es individual por lo que cada uno tiene que escribir su propia versión de la tarea.
-El repositorio debe contener unicamente el archivo .Rmd con la solución de la tarea.
-Vamos a utilizar la librería `gapminder`, por lo que si no la usaste anteriormente tenés que instalarla y luego cargarla.
-Para obtener la descripción del paquete `library(help = "gapminder")` y para saber sobre la base `?gapminder`.
+La tarea es individual por lo que cada uno tiene que escribir su propia versi?n de la tarea.
+El repositorio debe contener unicamente el archivo .Rmd con la soluci?n de la tarea.
+Vamos a utilizar la librer?a `gapminder`, por lo que si no la usaste anteriormente ten?s que instalarla y luego cargarla.
+Para obtener la descripci?n del paquete `library(help = "gapminder")` y para saber sobre la base `?gapminder`.
 
-##  Idea básica de regresión lineal 
+##  Idea b?sica de regresi?n lineal
 
-Una regresión lineal es una aproximación utilizada para modelar la relación entre dos variables que llamaremos `X` e `Y`. Donde Y es la variable que queremos explicar y X la variable explicativa (regresión simple).
+Una regresi?n lineal es una aproximaci?n utilizada para modelar la relaci?n entre dos variables que llamaremos `X` e `Y`. Donde Y es la variable que queremos explicar y X la variable explicativa (regresi?n simple).
 
-El análisis de regresión ajusta una curva a travéz  de los datos que representa la media de Y dado un valor especificado de X.
-Si ajustamos una regresión lineal a los datos consideramos "la curva media" como aquella que mejor ajusta a los datos.
+El an?lisis de regresi?n ajusta una curva a trav?z  de los datos que representa la media de Y dado un valor especificado de X.
+Si ajustamos una regresi?n lineal a los datos consideramos "la curva media" como aquella que mejor ajusta a los datos.
 
-Algunas veces ajustamos curvas genéricas promediando puntos cercanos entre si con  métodos de suavizado no necesariamente lineales.
-¿Cómo incluimos una recta de regresión en nuestro gráfico?
+Algunas veces ajustamos curvas gen?ricas promediando puntos cercanos entre si con  m?todos de suavizado no necesariamente lineales.
+?C?mo incluimos una recta de regresi?n en nuestro gr?fico?
 
-ajustamos una recta de regresión a los datos en  Para agregar una linea de regresión o una curva tinenes que agregar una capa a tu gráfico `geom_smoth`. Probablemente dos de los argumentos más útiles de `geom_smoth` son:
+ajustamos una recta de regresi?n a los datos en  Para agregar una linea de regresi?n o una curva tinenes que agregar una capa a tu gr?fico `geom_smoth`. Probablemente dos de los argumentos m?s ?tiles de `geom_smoth` son:
 
 - `method = ...`
     * ..."lm" para una linea recta. `lm`  "Linear Model".
-    * ...otro para una curva genérica (llamada de suavizado; por defecto, es la parte `smooth` de `geom_smooth`).
+    * ...otro para una curva gen?rica (llamada de suavizado; por defecto, es la parte `smooth` de `geom_smooth`).
     * `se=...` controla si los intervalos de confianza son dibujados o no.
 
 Ejemplo:
 ```{r, echo=TRUE}
 vc1 <- ggplot(gapminder, aes(year, lifeExp)) +
-    geom_point() 
+    geom_point()
 vc1 + geom_smooth(se = FALSE)
 
-```
-En este caso  `geom_smooth()` está usando `method = 'gam'`
+``` 
+En este caso  `geom_smooth()` est? usando `method = 'gam'`
 
 ```{r, echo=TRUE}
 vc1 + geom_smooth(method = "lm")
@@ -59,76 +61,92 @@ vc1 + geom_smooth(method = "lm")
 
 ## Ejercicio 1
 
-Hacer un gráfico de dispersión que tenga en el eje `y` `year` y en el eje `x`  `lifeExp`, los puntos deben estar coloreados por la variable `continent`. Para este plot ajustá una recta de regresión para cada continente sin incluir las barras de error. Las etiquetas de los ejes deben ser claras y describir las variables involucradas. Incluir un `caption` en la figura con algún comentario de interés que describa el gráfico.
+Hacer un gr?fico de dispersi?n que tenga en el eje `y` `year` y en el eje `x`  `lifeExp`, los puntos deben estar coloreados por la variable `continent`. Para este plot ajust? una recta de regresi?n para cada continente sin incluir las barras de error. Las etiquetas de los ejes deben ser claras y describir las variables involucradas. Incluir un `caption` en la figura con alg?n comentario de inter?s que describa el gr?fico.
 
 ```{r, echo=FALSE}
 
-ggplot(gapminder, aes(lifeExp, year, colour = continent)) + 
-  geom_point() +
-  geom_smooth(se = FALSE) +
-  labs(x = "Esperanza de vida (años)", y = "Año", colour = "Continente",caption = "Se observa un aumento de la esperanza de vida para todos los continentes a lo largo de los años, siendo Africa y Asia quienes han aumentado de manera más significativa.") +
-  theme(plot.caption = element_text(hjust = 0.5, size = 9))
-
+  ggplot(gapminder, aes(lifeExp, year, colour = continent)) + 
+   geom_point() + 
+   geom_smooth(se = FALSE) +
+   labs(x = "Esperanza de vida (a?os)", y = "A?o", colour = "Continente",caption = "Se observa un aumento de la esperanza de vida para todos los continentes a lo largo de los a?os, siendo Africa y Asia quienes han aumentado de manera m?s significativa.") + 
+   theme(plot.caption = element_text(hjust = 0.5, size = 9)) 
 ```
 
-## Ejercicio 2 
+\fbox{\begin{minipage}{48em}
+Los ejes x e y deben ser al revÃ©s  pero posiblemente no viste la versiÃ³n corregida de la tarea donde estaba arreglado esto. Para que te salga el tÃ­tulo de la figura numerado y sin cortar, usa fig.cap en el chunck de cÃ³digo. PedÃ­ rectas de regresiÃ³n debiste usar method="lm".
+\end{minipage}}
 
-Omitir la capa de  `geom_point` del gráfico anterior. Las lineas aún aparecen aunque los puntos no. ¿Porqué sucede esto? 
+
+## Ejercicio 2  
+
+Omitir la capa de  `geom_point` del gr?fico anterior. Las lineas a?n aparecen aunque los puntos no. ?Porqu? sucede esto?
 
 ```{r, echo = FALSE}
 
-ggplot(gapminder, aes(lifeExp, year, colour = continent)) + 
+ggplot(gapminder, aes(lifeExp, year, colour = continent)) +
   geom_smooth(se = FALSE) +
-  labs(x = "Esperanza de vida (años)", y = "Año", colour = "Continente",caption = "Se observa un aumento de la esperanza de vida para todos los continentes a lo largo de los años, siendo Africa y Asia quienes han aumentado de manera más significativa.") +
+  labs(x = "Esperanza de vida (a?os)", y = "A?o", colour = "Continente",caption = "Se observa un aumento de la esperanza de vida para todos los continentes a lo largo de los a?os, siendo Africa y Asia quienes han aumentado de manera m?s significativa.") +
   theme(plot.caption = element_text(vjust = 1,hjust = 0.5, size = 9))
 
 ```
 
-Por la logica de capas que utiliza ggplot, en este caso no se modifico lo que se quiere graficar, solamente se quito una capa de la visualización.
+Por la logica de capas que utiliza ggplot, en este caso no se modifico lo que se quiere graficar, solamente se quito una capa de la visualizaci?n.
 
-## Ejercicio 3
+\fbox{\begin{minipage}{48em}
+Ver soluciÃ³n mÃ¡s completa
+\end{minipage}}
 
-El siguiente es un gráfico de dispersión entre `lifeExp` y `gdpPercap`  coloreado por la variable `continent`. Usando como elemento estético color (`aes`) nosotros podemos distinguir los distintos continentes usando diferentes colores de similar manera usando forma (`shape`).
+## Ejercicio 3 
+
+El siguiente es un gr?fico de dispersi?n entre `lifeExp` y `gdpPercap`  coloreado por la variable `continent`. Usando como elemento est?tico color (`aes`) nosotros podemos distinguir los distintos continentes usando diferentes colores de similar manera usando forma (`shape`).
 
 ```{r, echo = FALSE}
 ggplot(gapminder, aes(gdpPercap, lifeExp, colour = continent)) +
-    geom_point() 
+    geom_point()
 ```
 
-El gráfico anterior está sobrecargado, ¿de que forma modificarías el gráfico para que sea más clara la comparación para los distintos continentes y porqué?
-Las etiquetas de los ejes deben ser claras y describir las variables involucradas. Comentá alguna característica interesante que describa lo que aprendes viendo el gráfico.
+El gr?fico anterior est? sobrecargado, ?de que forma modificar?as el gr?fico para que sea m?s clara la comparaci?n para los distintos continentes y porqu??
+Las etiquetas de los ejes deben ser claras y describir las variables involucradas. Coment? alguna caracter?stica interesante que describa lo que aprendes viendo el gr?fico.
 
 ```{R, echo = FALSE}
 
-ggplot(gapminder, aes(gdpPercap, lifeExp, colour = continent)) + 
+ggplot(gapminder, aes(gdpPercap, lifeExp, colour = continent)) +
   geom_point() +
   facet_wrap(~continent) +
-  labs(x = "PBI per capita (U$S)", y = "Esperanza de vida (años)", colour = "Continente",
+  labs(x = "PBI per capita (U$S)", y = "Esperanza de vida (a?os)", colour = "Continente",
        caption = "Para todos los continentes a mayor PBI per capita mayor esperanza de vida") +
   theme(plot.caption = element_text(hjust = 0.5, size = 9), legend.position = 'none')
 
-```
+``` 
 
 Una buena manera de mejorar el grafico para que sea mas clara la comparacion entre continentes es "facetearlo" por dicha variable ya que nos permite ver en una misma ventana grafica los datos graficados separados por los mismos.
 
+
+\fbox{\begin{minipage}{48em}
+ Los colores en este plot no aportan mÃ¡s de lo que aporta el facet en cuanto diferenciar los continentes pero de todas formas no es incorrecto.
+\end{minipage}}
+
 ## Ejercicio 4
 
-Hacer un gráfico de lineas que tenga en el eje `x` `year` y en el eje `y`  `gdpPercap` para cada continente en una misma ventana gráfica. En cada continente, el gráfico debe contener una linea para cada país a lo largo del tiempo (serie de tiempo de `gdpPercap`). Las etiquetas de los ejes deben ser claras y describir las variables involucradas. Incluir un `caption` en la figura con algún comentario de interés que describa el gráfico.
+Hacer un gr?fico de lineas que tenga en el eje `x` `year` y en el eje `y`  `gdpPercap` para cada continente en una misma ventana gr?fica. En cada continente, el gr?fico debe contener una linea para cada pa?s a lo largo del tiempo (serie de tiempo de `gdpPercap`). Las etiquetas de los ejes deben ser claras y describir las variables involucradas. Incluir un `caption` en la figura con alg?n comentario de inter?s que describa el gr?fico.
 
 ```{r, echo = FALSE}
 
-ggplot(gapminder, aes(year, gdpPercap)) + 
-  geom_line(aes(colour = continent, group = country)) + 
-  facet_wrap(~continent) +            
-  labs(x = "Año", y = "PBI per capita (U$S)", 
-      caption = "El PBI per capita de Europa y Asia son los que más han crecido durante los años junto a algunos paises de America") +
-  theme(plot.caption = element_text(hjust = 0.5, size = 9),legend.position = 'none')
+ggplot(gapminder, aes(year, gdpPercap)) +  
+   geom_line(aes(colour = continent, group = country)) + 
+   facet_wrap(~continent) +             
+   labs(x = "A?o", y = "PBI per capita (U$S)",  
+       caption = "El PBI per capita de Europa y Asia son los que m?s han crecido durante los a?os junto a algunos paises de America") + 
+   theme(plot.caption = element_text(hjust = 0.5, size = 9),legend.position = 'none') 
 
-```
+``` 
+\fbox{\begin{minipage}{48em}
+Bien, debes incluir fig.cap en vez de caption que te corta lo que escribÃ­s
+\end{minipage}}
 
-## Ejercicio 5 
+## Ejercicio 5
 
-Usando los datos `gapminder` seleccione una visualización que describa algún aspecto de los datos que no exploramos. Comente algo interesante que se puede aprender de su gráfico.
+Usando los datos `gapminder` seleccione una visualizaci?n que describa alg?n aspecto de los datos que no exploramos. Comente algo interesante que se puede aprender de su gr?fico.
 
 ```{r, echo = FALSE}
 
@@ -137,5 +155,14 @@ america <- filter(gapminder, continent == "Americas")
 ggplot(america,aes(year,gdpPercap, colour = country)) +
   geom_line()
 
-```
-A partir de la visualización del ejercicio 4 se me ocurrio que podia se interesante ver la informacion del PBI per capita traves de los años viendolo por paises para poder asi visualizar aquellos que sobresales o estan por debajo de la media.
+``` 
+A partir de la visualizaci?n del ejercicio 4 se me ocurrio que podia se interesante ver la informacion del PBI per capita traves de los a?os viendolo por paises para poder asi visualizar aquellos que sobresales o estan por debajo de la media.
+
+
+\fbox{\begin{minipage}{48em}
+Bien, tal vez hay muchos paÃ­ses y no es fÃ¡cil deferenciarlos, fata incluir el tÃ­tulo del grÃ¡fico y un comentario interesante de lo que aprendÃ©s del mismo
+\end{minipage}}
+
+\fbox{\begin{minipage}{48em}
+Buen trabajo, PUNTOS:90/100 hay que mejorar los tÃ­tulos de las figuras y trabajar en los comentarios y lo que aprendemos de las visualizaciones
+\end{minipage}}
